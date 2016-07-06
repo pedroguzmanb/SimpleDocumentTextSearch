@@ -45,3 +45,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/ED_TextTools/nbproject/private/
+/ED_DataStructures/nbproject/private/
+/ED_SearchEngine/nbproject/private/
+/ED_SearchEngine/build/
