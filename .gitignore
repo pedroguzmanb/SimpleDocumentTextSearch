@@ -49,6 +49,10 @@ Temporary Items
 /ED_DataStructures/nbproject/private/
 /ED_SearchEngine/nbproject/private/
 /ED_SearchEngine/build/
+<<<<<<< HEAD
 /PedroGuzmanTallerGeneral/nbproject/private/
 /PedroGuzmanTallerGeneral/build/
 /UPDClientServer/nbproject/private/
+=======
+/ED_TextTools/build/
+>>>>>>> origin/master
