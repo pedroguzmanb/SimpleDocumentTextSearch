@@ -25,6 +25,14 @@ package cr.ed.ulacit.dstructures;
  * @param <E>
  */
 public interface Iterator<E> {
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD HAS NEXT                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite verificar si el iterador contiene un elemento siguiente
+     * @return 
+     */
     boolean hasNext();
     
     // ------------------------------------------------------------------------- //

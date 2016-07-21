@@ -31,22 +31,79 @@ package cr.ed.ulacit.dstructures;
 public interface List<E>{
     
     // ------------------------------------------------------------------------- //
-    // METHOD COUNT                                                              //
+    // METHOD SIZE                                                               //
     // ------------------------------------------------------------------------- //
     /**
      * Permite obtener la cantidad de elementos de la lista  
      * @return 
      */
-    int count();
+    int size();
     
     // ------------------------------------------------------------------------- //
     // METHOD ADD                                                                //
     // ------------------------------------------------------------------------- //
     /**
-     * 
+     * Agrega un elemento al final de la lista
      * @param element
      * @return 
      */
-    List<E> add(E element);
+    boolean add(E element);
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD ADD                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Elimina todos los elementos de la lista
+     */
+    void clear();
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD ADD                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Verifica si el elemento indicado se encuentra dentro de la lista y retorna
+     * true si se encuentra o false si no se encuentra en la lista
+     * @param element
+     * @return 
+     */
+    boolean contains(E element);
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD GET                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite obtener un elemento en una posición específica de la lista.
+     * @param index
+     * @return 
+     */
+    E get(int index);
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD IS EMPTY                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Devuelve true si la lista se encuentra vacía o false si contiene elementos
+     * @return 
+     */
+    boolean isEmpty();
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD ITERATOR                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite obtener un iterador para la lista
+     * @return 
+     */
+    Iterator<E> iterator();
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD REMOVE                                                             //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite eliminar un elemento de la lista en una posición dada
+     * @param index La posición del elemento que se requiere eliminar
+     * @return true si el elemento fue eliminado o false si el elemento no existe
+     */
+    boolean remove(int index);
     
 } // CLASS LIST ENDS ----------------------------------------------------------- //

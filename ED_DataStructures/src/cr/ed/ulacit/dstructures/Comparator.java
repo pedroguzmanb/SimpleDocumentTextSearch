@@ -34,8 +34,8 @@ public interface Comparator<T> {
      * Permite comparar dos instnacias de tipo T (dinámico). Si el resultado es 0, 
      * entonces ambas instancias son iguales. Si el resultado es mayor que cero
      * entonces <tt>a es mayor que b</tt> de lo contrario <tt>b es mayor que a</tt>
-     * @param a
-     * @param b
+     * @param a primer elemento que será comparado
+     * @param b segundo elemento que será comparado
      * @return 
      */
     int compare(T a, T b);

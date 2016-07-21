@@ -21,7 +21,7 @@ import cr.ed.ulacit.dstructures.Trie;
  * @author Pedro Guzmán (pguzmanb498@ulacit.ed.cr)
  * @param <T> Tipo de los elementos que serán almacenados en el Trie
  */
-public class ExtendedASCIITrie<T> implements Trie<T>{
+public class ExtendedASCIIConcurrentTrie<T> implements Trie<T>{
     
     // ========================================================================= //
     // PRIVATE CLASS NODE                                                        //
