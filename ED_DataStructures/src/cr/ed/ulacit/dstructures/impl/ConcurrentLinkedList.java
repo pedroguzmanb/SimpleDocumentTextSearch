@@ -4,7 +4,7 @@
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,6 +19,7 @@ package cr.ed.ulacit.dstructures.impl;
 import cr.ed.ulacit.dstructures.Comparator;
 import cr.ed.ulacit.dstructures.Iterator;
 import cr.ed.ulacit.dstructures.List;
+import java.util.NoSuchElementException;
 
 // ----------------------------------------------------------------------------- //
 // CLASS CONCURRENT LINKED LIST                                                  //
@@ -45,6 +46,37 @@ public class ConcurrentLinkedList<E> implements List<E>{
      */
     public class ConcurrentListIterator<E> implements Iterator<E>{
         
+        // ===================================================================== //
+        // CLASS ATTRIBUTES                                                      //
+        // ===================================================================== //
+        
+        /**
+         * Nodo al que el iterador apunta actualmente
+         */
+        private Node<E> current;
+        
+        private boolean allowRemove;
+        
+        private final ConcurrentLinkedList<E> list;
+        
+        // --------------------------------------------------------------------- //
+        // CLASS CONSTRUCTOR                                                     //
+        // --------------------------------------------------------------------- //
+        /**
+         * Permite crear instancias de un lista doblemente enlazada con acceso 
+         * concurrente de hilos de ejecución. 
+         * @param current Referencia al nodo al que se encuentra apuntando
+         *                el iterador.
+         * @param list  Referencia a la lista de elementos que el iterador está
+         *              iterando actualmente.
+         */
+        public ConcurrentListIterator(final Node<E> current, 
+                final ConcurrentLinkedList<E> list){
+            this.current = current;
+            this.allowRemove = true;
+            this.list = list;
+        } // CLASS CONSTRUCTOR ENDS -------------------------------------------- //
+        
         // --------------------------------------------------------------------- //
         // METHOD HAS NEXT                                                       //
         // --------------------------------------------------------------------- //
@@ -55,7 +87,7 @@ public class ConcurrentLinkedList<E> implements List<E>{
          */
         @Override
         public boolean hasNext() {
-            throw new UnsupportedOperationException("Not supported yet."); 
+            return this.current.next != null;
         } // METHOD HAS NEXT --------------------------------------------------- //
 
         // --------------------------------------------------------------------- //
@@ -69,7 +101,17 @@ public class ConcurrentLinkedList<E> implements List<E>{
          */
         @Override
         public E next() {
-            throw new UnsupportedOperationException("Not supported yet."); 
+            E element;
+            if(this.current.getNext() != null){
+                // Nos movemos al elemento siguiente
+                this.current = this.current.getNext();
+                element = this.current.getElement();
+                this.allowRemove = true;
+            } // IF ENDS
+            else{
+                element = null;
+            } // ELSE ENDS
+            return element;
         } // METHOD NEXT ENDS -------------------------------------------------- //
 
         // --------------------------------------------------------------------- //
@@ -77,11 +119,39 @@ public class ConcurrentLinkedList<E> implements List<E>{
         // --------------------------------------------------------------------- //
         /**
          * Elimina el último elemento devuelvo por el iterador. Este método se 
-         * llama 
+         * llama únicamente una vez por cada .next() que se haga. De lo 
+         * contrario arroja una excepción. 
          */
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Not supported yet."); 
+            if(this.allowRemove){
+                // Primero se debe verificar si el nodo actual no es el primero 
+                // de la lista
+                if(this.current.getPrevious() != null){
+                    
+                    // Si el nodo que se requiere eliminar es el primero de la 
+                    // lista entonces: 
+                    if(this.current.getPrevious().getPrevious() == null){
+                        this.current.getPrevious().setNext(null);
+                        this.current.setPrevious(null);
+                        this.list.setFirst(this.current);
+                        this.list.decrese();
+                        this.allowRemove = false;
+                    } // IF ENDS
+                    else{
+                        this.current.previous.previous.next = this.current;
+                        this.current.next = this.current.previous.previous;
+                        this.list.decrese();
+                        this.allowRemove = false;
+                    } // ELSE IF
+                    
+                    // TODO REMOVE LAST
+                    
+                } // IF ENDS
+            }// IF ENDS
+            else{
+                throw new NoSuchElementException("Eliminación no autorizada. Solo se puede elimnar una vez por cada next()");
+            } // ELSE ENDS
         } // METHOD REMOVE ENDS ------------------------------------------------ //
     
     } // CLASS CONCURRENT LIST ITERATOR ENDS ----------------------------------- //
@@ -216,53 +286,298 @@ public class ConcurrentLinkedList<E> implements List<E>{
      */
     private Node<E> last;
     
+    /**
+     * Almacena la cantidad de elementos que se encuentran en la lista
+     */
     private int count;
     
+    /**
+     * Almacena una instancia de un comparador que permite realizar comparaciones
+     * entre objetos.
+     */
     private Comparator<E> comp;
+    
+    // ========================================================================= //
+    // CONSTRUCTOR DE LA CLASE                                                   //
+    // ========================================================================= //
+    /**
+     * Crea instancias de una lista doblemente enlazada con soporte para acceso
+     * concurrente
+     * @param comparator Requiere una instancia de comparador que permite evaluar
+     *                   si dos objetos son el mismo, uno es mayor que otro o uno
+     *                   es menor el que el otro.
+     */
+    public ConcurrentLinkedList(final Comparator<E> comparator){
+        // Se asigna el comparador de la lista
+        this.comp = comparator;
+    } // CONSTRUCTOR METHOD ENDS =============================================== //
     
     
     // ========================================================================= //
     // MÉTODOS PÚBLICOS DE LA CLASE                                              //
     // ========================================================================= //
+    
+    /**
+     * Solo debe ser utilizado por el iterador. No utilizar en otra situación
+     */
+    protected void decrese(){
+        this.count = this.count -1;
+    } // METHOD DECREASE ------------------------------------------------------- //
+    
+    /**
+     * Solo debe ser utilizado desde el iterador. 
+     * @param node 
+     */
+    protected void setFirst(final Object node){
+        this.first = (Node<E>)node;
+    } // SET FIRST ENDS -------------------------------------------------------- //
+    
+    /**
+     * Solo debe ser utilizado por el iterador por lo que se encuentra solo 
+     * accesible dentro del mismo paquete.
+     * @param node 
+     */
+    protected void setLast(final Object node){
+        this.last = (Node<E>)node;
+    } // METHOD SET LAST ENDS -------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD SIZE                                                               //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite obtener la cantidad de elementos que se eneucuentran almacenados 
+     * en la lista.
+     * @return El tamaño de la lista 
+     */
     @Override
-    public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+    public synchronized int size() {
+        return this.count;
+    } // METHOD SIZE ENDS ------------------------------------------------------ //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD ADD                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite agregar elementos al final de la lista
+     * @param element el elemento que se requeire insertar en la lista.
+     * @return true si el elemento fue agregado a la lista correctamente o false
+     *         si el elemento no fue agregado. 
+     */
     @Override
-    public boolean add(E element) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+    public synchronized boolean add(E element) {
+        boolean added = false;
+        // Primero debemos crear un nuevo nodo con el elemento que vamos a 
+        // insertar y colocar el elemento.
+        Node<E> node = new Node<>(element);
+        // Tenemos varios casos, el primero es que la lista esté vacía y 
+        // por lo tanto tenemos que agregar un primero elemento
+        if(this.first == null){
+            this.first = node;
+            this.last = node;
+            // Actualizamos las referencias
+            node.setPrevious(null);
+            node.setNext(null);
+            added = true;
+        } // IF ENDS
+        else{
+            // En el caso de que la lista ya tenga elementos entonces solo se 
+            // debe insertar al final de la lista. 
+            this.last.setNext(node);
+            node.setPrevious(this.last);
+            node.setNext(null);
+            this.last = node;
+            added = true;
+        } // ELSE ENDS
+        // Aumentamos la cantidad de elementos de la lista en 1. 
+        this.count++;
+        // Notifica a los demás hilos que el lock ha sido liberado
+        notify();
+        return added;
+    } // METHOD ADD ENDS ------------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD CLEAR                                                              //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Elimina todos los elementos de la lista y 
+     */
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        this.last = null;
+        this.first = null;
+        this.count = 0;
+        System.gc();
+    } // METHOD CLEAR ENDS ----------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD CONTAINS                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite determinar si un elemento particular existe dentro de la lista
+     * @param element
+     * @return true si el elemento se encuentra dentro de la lista. False si el 
+     *          elemento no se encuentra dentro de la lista.
+     */
     @Override
     public boolean contains(E element) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        boolean exists = false;
+        // Verificamos primero si la lista tiene elementos
+        if(this.first != null){
+            // Si la lista tiene elementos entonces utilizamos un iterador para
+            // verificar si el elementos existe. 
+            Iterator<E> iter = this.iterator();
+            while(iter.hasNext() && !exists){
+                // Verificamos si el elemento siguiente al iterador 
+                if(this.comp.compare(iter.next(), element) == 0){
+                    exists = true;
+                } // IF ENDS
+            } // WHILE ENDS
+        } // IF ENDS
+        return exists;
+    } // METHOD CONTAINS ENDs -------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD GET                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite obtener un elemento en una posición dada de la lista
+     * @param index
+     * @return el elemento o null si el elemento o la posición no es válida
+     */
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        E element = null;
+        /**
+         * Primero verificamos si la lista tiene elementos, de lo contrario no es
+         * necesario iterar por la misma para deterinar si el elemento que se 
+         * requiere eliminar existe o no.
+         */
+        if(index < this.count && this.first != null){
+           
+            if(index == 0){
+               element = this.first.getElement();
+            } // IF ENDS
+            else{
+                // CASO B - Se desea eliminar el último elemento.
+                if((this.count-1) == index){
+                   element = this.last.getElement();
+                } // IF ENDS
+                else{
+                    Node<E> aux = this.first;
+                    // Movemos aux hasta la posición antes de la que 
+                    // queremos eliminar
+                    for(int i = 0; i < index - 1;++i ){
+                        aux = aux.getNext();
+                    } // FOR ENDS
+                    element = aux.getElement();
+                } // ELSE ENDS
+            } // ELSE ENDS
+           System.gc();
+        } // IF ENDS
+        return element;
+    } // METHOD GET ENDS ------------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD IS EMPTY                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite determinar si una lista se encuentra vacía o no
+     * @return 
+     */
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        return (this.first == null && this.count == 0);
+    } // METHOD IS EMPTY ENDS -------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD ITERATOR                                                           //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Permite obtener un iterador de la lista que se encuentra en una posición
+     * antes del primero elemento de la lista
+     * @return 
+     */
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        // Creamos un nodo comodín cuyo propósito es ser una posición virtual 
+        // anterior el primero elemento de la lista con el objetivo de que el 
+        // siguiente de este elemento sea el primero elemento de la lista.
+        Node<E> beforeElement = new Node<>(null);
+        beforeElement.setNext(this.first);
+        return new ConcurrentListIterator<E>(beforeElement, this);
+    } // METHOD ITERATOR ENDS -------------------------------------------------- //
 
+    // ------------------------------------------------------------------------- //
+    // METHOD REMOVE                                                             //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Si la posición indicada es válida, este método elimina el elemento que 
+     * se encuentra en la posición dada. Importante recordar que la primera 
+     * posición es 0 por lo que la lista tiene <tt>.size() -1 </tt> posiciones 
+     * válidas.
+     * @param index
+     * @return true si la posición es válida y el elemento fue eliminado o false
+     *         si la posición no es válida o el elemento no fue eliminado. 
+     */
     @Override
     public boolean remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+        boolean removed = false;
+        /**
+         * Primero verificamos si la lista tiene elementos, de lo contrario no es
+         * necesario iterar por la misma para deterinar si el elemento que se 
+         * requiere eliminar existe o no.
+         */
+        if(index < this.count && this.first != null){
+            
+            /**
+             * Para eliminar elementos se tienen 3 casos:
+             * a- Que el elemento que requerimos eliminar sea el primer elemento
+             *    de la lista.
+             * b- Que el elemento que requerimos eliminar sea el último elemento
+             *    de la lista.
+             * c- Que el elemento que requerimos eliminar si encuentre en medio 
+             *    de la lista
+             */
+           
+            // CASO A
+            if(index == 0){
+                if(this.first.getNext() != null){
+                    this.first = this.first.getNext();
+                    this.first.setPrevious(null);
+                } // IF ENDS
+                else{
+                    this.first = null;
+                    this.last = null;
+                } // ELSE ENDS
+                removed = true;
+                this.count = (this.count - 1);
+            } // IF ENDS
+            else{
+                // CASO B - Se desea eliminar el último elemento.
+                if((this.count-1) == index){
+                    this.last = this.last.getPrevious();
+                    this.last.setNext(null);
+                    removed = true;
+                    this.count = (this.count - 1);
+                    System.gc();
+                } // IF ENDS
+                else{
+                    Node<E> aux = this.first;
+                    // Movemos aux hasta la posición antes de la que 
+                    // queremos eliminar
+                    for(int i = 0; i < index - 2;++i ){
+                        aux = aux.getNext();
+                    } // FOR ENDS
+                    aux.getNext().getNext().setPrevious(aux);
+                    aux.setNext(aux.getNext().getNext());
+                    removed = true;
+                    this.count = (this.count - 1);
+                    System.gc();
+                } // ELSE ENDS
+            } // ELSE ENDS
+           System.gc();
+        } // IF ENDS
+        return removed;
+    } // METHOD REMOVE ENDS ---------------------------------------------------- //
     
 } // CLASS LIST ENDS ----------------------------------------------------------- //
