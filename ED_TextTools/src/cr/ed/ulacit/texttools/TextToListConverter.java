@@ -66,22 +66,5 @@ public class TextToListConverter {
     } // METHOD TO LIST ENDS --------------------------------------------------- //
 
     
-    
-    // ------------------------------------------------------------------------- //
-    // METHOD TO LIST STOP WORD                                                             //
-    // ------------------------------------------------------------------------- //
-    /** este metodo recibe una lista de stop words y luego se divide en un vector
-     * de String (la lista de stop words esta en el metodo main)
-     * 
-     * @param stopWords
-     * @return 
-     */
-    //
-    public List<String> toListStopWord(String stopWords) {
-        List<String> stopWordList = new ConcurrentLinkedList<String>(new TextComparator());
-        String[] stopWordArray = stopWords.split("a-zA-z0-9");
-       
-        return stopWordList;
-
-    } // METHOD TO LIST STOP WORD ENDS ----------------------------------------- //
+   
 } // METHOD TEXT TO LIST CONVERTER --------------------------------------------- //

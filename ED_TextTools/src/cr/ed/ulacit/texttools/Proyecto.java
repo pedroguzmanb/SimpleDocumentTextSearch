@@ -342,8 +342,10 @@ public class Proyecto {
 " yours\n" +
 " yourself\n" +
 " yourselves";
+    
+        TextPurifier miText = new TextPurifier();
+        miText.purify(text);
         
-        System.out.println(miTexto.toListStopWord(stopWords));
     }
     
 }
