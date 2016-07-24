@@ -11,52 +11,77 @@ import cr.ed.ulacit.dstructures.List;
 import cr.ed.ulacit.dstructures.impl.ConcurrentLinkedList;
 import cr.ed.ulacit.texttools.util.TextComparator;
 
-
 // ============================================================================= //
 // TEXT TO LIST CONVERTER                                                        //
 // ============================================================================= //
 /**
- * Esta clase representa un convertor de texto a lista. Lo provee son métodos que 
- * permiten convertir un String a una lista de palabras por medio de un proceso 
- * de eliminación de puntuación y caracteres especiales. La idea es que sólo 
- * quede una lista en la cual cada elemento es una palabra del texto. 
+ * Esta clase representa un convertor de texto a lista. Lo provee son métodos
+ * que permiten convertir un String a una lista de palabras por medio de un
+ * proceso de eliminación de puntuación y caracteres especiales. La idea es que
+ * sólo quede una lista en la cual cada elemento es una palabra del texto.
+ *
  * @author Salgua Salha (ssalhaa954@ulacit.ed.cr)
  * @author Pedro Guzmán (pguzmanb498@ulacit.ed.cr)
  */
 public class TextToListConverter {
-    
+
     // ------------------------------------------------------------------------- //
     // METHOD TO LIST                                                            //
     // ------------------------------------------------------------------------- //
     /**
-     * Este método recibe un string que contiene todo un texto con puntuación y 
-     * lo transforma en una lista de palabras sin puntuación. Cada elemento de la
-     * lista es una palabra del texto. La conversión utiliza expresiones regulares
-     * para eliminar la puntuación.
+     * Este método recibe un string que contiene todo un texto con puntuación y
+     * lo transforma en una lista de palabras sin puntuación. Cada elemento de
+     * la lista es una palabra del texto. La conversión utiliza expresiones
+     * regulares para eliminar la puntuación.
+     *
      * @param text
-     * @return 
+     * @return
      */
-    public List<String> toList(String text){
-        
-        // Primero ocupamos declara una lista vacía donde vamos a agregar las 
+    public List<String> toList(String text) {
+
+        // Primero ocupamos declarar una lista vacía donde vamos a agregar las 
         // palabras una vez que hemos eliminado la puntuación y utilizado el 
         // método split() de la clase String para dividir el texto en un vector
         // o arreglo de palabras.
         List<String> words = new ConcurrentLinkedList<String>(new TextComparator());
-        
+
         // RECOMENDACIONES: Antes de insertar los elementos en la lista, se debe
         //                  convertir todo el text a mayúscula para que no exista
         //                  diferencia entre un texto en minúscula y otro en 
         //                  mayúscula. Lo que nos interesa es el significado de
         //                  las palabras. 
-        
-        
         // (TO DO SALGUA) -- Aquí se debe implementar la lógica de éste método
-        
-        
+        //Primero converti el texto en mayuscula y elimine todo los carcteres 
+        //como puntos,comas....ect 
+        //segundo se creo un ciclo para ir agregando las palabras divididas en una
+        //lista
+        text = text.toUpperCase().replaceAll("[^a-z0-9\\s']", " ");
+        String[] wordsText = text.split("A-Z0-9");
+        for (String wordText : wordsText) {
+            words.add(wordText);
+        }
         // Al final, en la lista words deben estar todas las palabras que 
         // componen el texto sin puntuación.
         return words;
     } // METHOD TO LIST ENDS --------------------------------------------------- //
+
     
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD TO LIST STOP WORD                                                             //
+    // ------------------------------------------------------------------------- //
+    /** este metodo recibe una lista de stop words y luego se divide en un vector
+     * de String (la lista de stop words esta en el metodo main)
+     * 
+     * @param stopWords
+     * @return 
+     */
+    //
+    public List<String> toListStopWord(String stopWords) {
+        List<String> stopWordList = new ConcurrentLinkedList<String>(new TextComparator());
+        String[] stopWordArray = stopWords.split("a-zA-z0-9");
+       
+        return stopWordList;
+
+    } // METHOD TO LIST STOP WORD ENDS ----------------------------------------- //
 } // METHOD TEXT TO LIST CONVERTER --------------------------------------------- //
