@@ -16,8 +16,8 @@ public class Proyecto {
      */
     public static void main(String[] args) {
         TextToListConverter miTexto = new TextToListConverter();
-        String text = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\texto01.txt");
-        String stopwords = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\StopWords.txt");
+        String text = TextFileReader.readFile("C:\\Users\\NOUR\\Desktop\\ULACITO\\texto.txt");
+        String stopwords = TextFileReader.readFile("C:\\Users\\NOUR\\Desktop\\ULACITO\\StopWords.txt");
         
         //System.out.println("EL TEXTO");
         //System.out.println(miTexto.toList(text));
