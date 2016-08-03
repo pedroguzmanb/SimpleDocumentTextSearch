@@ -37,19 +37,32 @@ public class TextPurifier {
      *
      * @param stopWords
      */
-    public TextPurifier(final List<String> stopWords) {
-        this.stopWords = stopWords;
+    public TextPurifier(final String stopWords) {
+        this.stopWords = this.stopWords(stopWords);
     } // CONSTRUCTOR METHOD ENDS ----------------------------------------------- //
+    
 
-    TextPurifier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private List<String> stopWord(String stopWords) {
+    // ------------------------------------------------------------------------- //
+    // METHOD STOP WORDS                                                         //
+    // ------------------------------------------------------------------------- //
+    /**
+     * REALIZA: 
+     * @param stopWords
+     * @return 
+     */
+    private List<String> stopWords(String stopWords) {
         List<String> stopWordList = new ConcurrentLinkedList<String>(new TextComparator());
-        String[] stopWordArray = stopWords.split("A-Za-z0-9");
+        String[] stopWordArray = stopWords.toUpperCase().split("[^A-Za-z0-9'\"]");
+        for(String word : stopWordArray){
+            // Solo agregamos palabras, no cambios de línea o espacios
+            if(word != "\n" || word != "" || word != " "){
+                stopWordList.add(word);
+            } // IF ENDS 
+        } // FOR ENDS
+        // DEBUG
+        //System.out.println(stopWordList);
         return stopWordList;
-    }
+    } // METHOD STOP WORDS ENDS ------------------------------------------------ //
 
     // ------------------------------------------------------------------------- //
     // METHOD PURIFY                                                             //
@@ -59,26 +72,29 @@ public class TextPurifier {
      * un texto. El método se encarga de eliminar todos los stopwords que
      * aparecen y devuelve la lista del texto pero sin todos los stopwords que
      * fueron eliminados.
+     * 
+     * TODO - implementar esto con un lista divididad e hilos para lograr un 
+     * mejor rendimiento.
      *
      * @param text
      * @return
      */
     public List<String> purify(List<String> text) {
         // TO DO SALGUA -- escribir acá el código que alimina los stop words
-        Iterator<String> iterText = text.iterator();
-        Iterator<String> iterStopWords=stopWords.iterator();
-        
-        while(iterStopWords.next()!= null){
-        while(iterText.next()!=null){
-        if(iterStopWords.next()==iterText.next()){
-        iterText.next();
-        iterText.remove();
-        }
-        }iterStopWords.next();
-        
-        }
-
-        // RECOMENDACIÓN: utilizar el iterador para eliminar los stopwords
+        for(int i = 0; i < this.stopWords.size(); ++i){
+            Iterator<String> textIter = text.iterator();
+            while(textIter.hasNext()){
+                // Se re-implementó la comparación de strings por medio de 
+                // HashCodes que son valores numéricos y por lo tanto 
+                // más rápido de comparar
+                if(textIter.next().hashCode() == this.stopWords.get(i).hashCode()){
+                    textIter.remove();
+                    System.out.println("Removido: " + this.stopWords.get(i));
+                } // if ENDS
+            } // WHILE ENDS
+        } // FOR ENDS
+        System.out.println("----------------------------------------------------");
+        System.out.println("TEXTO PURIFICADO: \n" + text);
         return text;
     } // METHOD PURIFY --------------------------------------------------------- //
 

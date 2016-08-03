@@ -87,7 +87,8 @@ public class ConcurrentLinkedList<E> implements List<E>{
          */
         @Override
         public boolean hasNext() {
-            return this.current.next != null;
+            //System.out.println(this.current.getNext().getElement());
+            return this.current.getNext() != null;
         } // METHOD HAS NEXT --------------------------------------------------- //
 
         // --------------------------------------------------------------------- //
@@ -125,29 +126,37 @@ public class ConcurrentLinkedList<E> implements List<E>{
         @Override
         public void remove() {
             if(this.allowRemove){
-                // Primero se debe verificar si el nodo actual no es el primero 
-                // de la lista
-                if(this.current.getPrevious() != null){
-                    
-                    // Si el nodo que se requiere eliminar es el primero de la 
-                    // lista entonces: 
-                    if(this.current.getPrevious().getPrevious() == null){
-                        this.current.getPrevious().setNext(null);
-                        this.current.setPrevious(null);
-                        this.list.setFirst(this.current);
-                        this.list.decrese();
-                        this.allowRemove = false;
-                    } // IF ENDS
-                    else{
-                        this.current.previous.previous.next = this.current;
-                        this.current.next = this.current.previous.previous;
-                        this.list.decrese();
-                        this.allowRemove = false;
-                    } // ELSE IF
-                    
-                    // TODO REMOVE LAST
-                    
+                
+                // Se debe eliminar el último elemento que ha retornado el iterador
+                // por medio del método .next(). Por lo tanto siempte debe eliminar
+                // el elemento en la posición "current"
+                
+                // Primero se verifica si el elemento que se requiere eliminar
+                // es el primer elemento de la lista
+                if(this.current.previous == null){
+                    Node<E> tmp = new Node<E>(null);
+                    tmp.setNext(this.current.next);
+                    this.list.setFirst(this.current.next);
+                    this.current.next.setPrevious(null);
+                    this.current = tmp;
                 } // IF ENDS
+                else{
+                    // SI NO ES EL ÚLTIMO ENTONCES OTRAS REGLAS APLICAN
+                    Node<E> aux = this.current;
+                    this.current = aux.previous;
+                    // Le decimos al siguiente del que queremos borrar que
+                    // su nuevo siguiente anterior es el anterior del elemento
+                    // que se quiere borrar si existe un siguiente.
+                    if(aux.next != null){
+                        aux.next.previous = this.current;
+                        this.current.next = aux.next;
+                    }else{
+                        // En este caso el elemento que vamos a borrar es el 
+                        // último elemento de la lista.
+                        this.current.next = null;
+                    } // ELSE 
+                    aux = null; // Eliminamos el elemento.
+                } // ELS ENDS
             }// IF ENDS
             else{
                 throw new NoSuchElementException("Eliminación no autorizada. Solo se puede elimnar una vez por cada next()");
@@ -579,5 +588,20 @@ public class ConcurrentLinkedList<E> implements List<E>{
         } // IF ENDS
         return removed;
     } // METHOD REMOVE ENDS ---------------------------------------------------- //
+    
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        Iterator<E> i = this.iterator();
+        while(i.hasNext()){
+            sb.append(i.next().toString());
+            sb.append("\n");
+        } // WHILE
+        return sb.toString();
+    } // METHOD TO STRING ENDS-------------------------------------------------- //
     
 } // CLASS LIST ENDS ----------------------------------------------------------- //

@@ -44,6 +44,8 @@ public class TextToListConverter {
         // método split() de la clase String para dividir el texto en un vector
         // o arreglo de palabras.
         List<String> words = new ConcurrentLinkedList<String>(new TextComparator());
+        
+        
 
         // RECOMENDACIONES: Antes de insertar los elementos en la lista, se debe
         //                  convertir todo el text a mayúscula para que no exista
@@ -55,8 +57,10 @@ public class TextToListConverter {
         //como puntos,comas....ect 
         //segundo se creo un ciclo para ir agregando las palabras divididas en una
         //lista
-        text = text.toUpperCase().replaceAll("[^a-z0-9\\s']", " ");
-        String[] wordsText = text.split("A-Z0-9");
+        text = text.replaceAll("[^a-zA-Z0-9\\s']", "").toUpperCase();
+        // DEBUG --- 
+        //System.out.println();
+        String[] wordsText = text.split("\\s*(=>|,|\\s)\\s*");
         for (String wordText : wordsText) {
             words.add(wordText);
         }
