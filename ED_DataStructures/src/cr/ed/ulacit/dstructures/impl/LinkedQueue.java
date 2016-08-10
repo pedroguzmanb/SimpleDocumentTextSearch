@@ -19,7 +19,9 @@ package cr.ed.ulacit.dstructures.impl;
 import cr.ed.ulacit.dstructures.Queue;
 
 /**
- *
+ * Esta clase es la implementación de una cola con soporte para acceso 
+ * concurrente.
+ * @author Salgua Salha (ssalhaa954@ulacit.ed.cr)
  * @author Pedro Guzmán (pguzmanb498@ulacit.ed.cr)
  */
 public class LinkedQueue<E> implements Queue<E>{

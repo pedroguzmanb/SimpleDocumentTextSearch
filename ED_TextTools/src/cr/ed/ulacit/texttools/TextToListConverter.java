@@ -63,7 +63,7 @@ public class TextToListConverter {
         String[] wordsText = text.split("\\s*(=>|,|\\s)\\s*");
         for (String wordText : wordsText) {
             words.add(wordText);
-        }
+        } // FOR ENDS
         // Al final, en la lista words deben estar todas las palabras que 
         // componen el texto sin puntuación.
         return words;
