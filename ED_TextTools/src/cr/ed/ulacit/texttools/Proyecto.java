@@ -5,6 +5,7 @@
  */
 package cr.ed.ulacit.texttools;
 
+import cr.ed.ulacit.texttools.util.TextFileReader;
 import cr.ed.ulacit.dstructures.Iterator;
 import cr.ed.ulacit.dstructures.List;
 import cr.ed.ulacit.dstructures.Trie;
