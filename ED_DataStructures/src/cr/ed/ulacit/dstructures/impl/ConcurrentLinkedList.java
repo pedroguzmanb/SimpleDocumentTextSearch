@@ -597,10 +597,12 @@ public class ConcurrentLinkedList<E> implements List<E>{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         Iterator<E> i = this.iterator();
+        sb.append("{");
         while(i.hasNext()){
             sb.append(i.next().toString());
             sb.append("\n");
         } // WHILE
+        sb.append("}");
         return sb.toString();
     } // METHOD TO STRING ENDS-------------------------------------------------- //
     
