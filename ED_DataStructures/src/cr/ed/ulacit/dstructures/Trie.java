@@ -80,5 +80,15 @@ public interface Trie <T>{
      */
     Trie<T> delete(String key);
     
+    // ------------------------------------------------------------------------- //
+    // METHOD LIST                                                               //
+    // ------------------------------------------------------------------------- /
+    /**
+     * Permite obtener todos los elementos del Trie como una lista enlazada
+     * @param c - instancia de comparador de <T>
+     * @return Lista con los elementos contenidos en el Trie
+     */
+    List<T> list(Comparator<T> c);
+    
     
 } // INTERFACE TRIE ENDS ------------------------------------------------------- //

@@ -6,14 +6,9 @@
 package cr.ed.ulacit.texttools;
 
 import cr.ed.ulacit.texttools.util.TextFileReader;
-import cr.ed.ulacit.dstructures.Iterator;
 import cr.ed.ulacit.dstructures.List;
-import cr.ed.ulacit.dstructures.Trie;
-import cr.ed.ulacit.dstructures.impl.ExtendedASCIIConcurrentTrie;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import cr.ed.ulacit.model.WordFrequency;
+
 
 /**
  *
@@ -25,25 +20,37 @@ public class Proyecto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TextToListConverter miTexto = new TextToListConverter();
+        TextToListConverter converter = new TextToListConverter();
         String text = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\texto01.txt");
         String stopwords = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\StopWords.txt");
-
-        //System.out.println("EL TEXTO");
-        //System.out.println(miTexto.toList(text));
-        //System.out.println("STOP WORDS");
         TextPurifier purifier = new TextPurifier(stopwords);
 
         System.out.println("----------------------- TEXTO PURIFICADO ----------------------------");
+        
+        List<WordFrequency> doc = purifier
+                .extractSemanticVocabulary(converter
+                        .toList(text)
+                );
+        System.out.println(doc);
+        
 
-        List<String> purificadas = purifier.purify(miTexto.toList(text));
+        /*List<String> purificadas = purifier.purify(miTexto.toList(text));
         // Ahora las vamos a meter en el Trie.
-        Trie<Integer> documento = new ExtendedASCIIConcurrentTrie<Integer>();
+        Trie<WordFrequency> documento = new ExtendedASCIIConcurrentTrie<WordFrequency>();
 
         Iterator<String> iter = purificadas.iterator();
 
         while (iter.hasNext()) {
-            documento.put(iter.next(), 0);
+            String tmp = iter.next();
+            
+            // Si la palabra ya existía en el Trie entonces solo aumentamos 
+            // la frecuencia
+            if(documento.contains(tmp)){
+                documento.get(tmp).inc();
+            } // IF ENDS
+            else{
+                documento.put(tmp, new WordFrequency(tmp));
+            } // ELSE ENDS
         } // WHILE ENDS
 
         
@@ -57,6 +64,15 @@ public class Proyecto {
             System.out.println(ex.getMessage());
             Logger.getLogger(Proyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Comparator<WordFrequency> c = new WordFrequencyComparator();
+        List<WordFrequency> vocabulario = documento.list(c);
+        
+        System.out.println(" --------------------------------------------------------------------");
+        System.out.println(" VOCABULARIO PURIFICADO ");
+        System.out.println(" --------------------------------------------------------------------");
+        System.out.println(vocabulario);
+        */
+
 
     }
 

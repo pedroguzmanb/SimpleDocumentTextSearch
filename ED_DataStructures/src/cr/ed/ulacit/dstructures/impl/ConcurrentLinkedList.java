@@ -137,8 +137,10 @@ public class ConcurrentLinkedList<E> implements List<E>{
                     Node<E> tmp = new Node<E>(null);
                     tmp.setNext(this.current.next);
                     this.list.setFirst(this.current.next);
-                    this.current.next.setPrevious(null);
-                    this.current = tmp;
+                    if(this.current.next != null){
+                        this.current.next.setPrevious(null);
+                        this.current = tmp;
+                    } // IF ENDS
                 } // IF ENDS
                 else{
                     // SI NO ES EL ÚLTIMO ENTONCES OTRAS REGLAS APLICAN

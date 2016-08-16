@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2016 Pedro Guzmán (pguzmanb498@ulacit.ed.cr)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@ package cr.ed.ulacit.dstructures.impl;
 // IMPORTS                                                                       //
 // ============================================================================= //
 
+import cr.ed.ulacit.dstructures.Comparator;
+import cr.ed.ulacit.dstructures.List;
 import cr.ed.ulacit.dstructures.Trie;
 
 import java.util.Arrays;    // Se utiliza para soporte de expresiones Lambda en 
@@ -33,6 +35,8 @@ import java.util.Arrays;    // Se utiliza para soporte de expresiones Lambda en
  * las llaves de indexación
  *
  * @author Pedro Guzmán (pguzmanb498@ulacit.ed.cr)
+ * @since 20/07/2016
+ * @version 1.0
  * @param <T> Tipo de los elementos que serán almacenados en el Trie
  */
 public class ExtendedASCIIConcurrentTrie<T> implements Trie<T> {
@@ -259,6 +263,36 @@ public class ExtendedASCIIConcurrentTrie<T> implements Trie<T> {
             sb.append("}");
             return sb.toString();
         } // METHOD TO STRING ENDS --------------------------------------------- //
+        
+        // --------------------------------------------------------------------- //
+        // METHOD LIST                                                           //
+        // --------------------------------------------------------------------- //
+        /**
+         * Este método permite obtener todos los sub-elementos del nodo en una
+         * lista. 
+         * @param l - referencia a la lista donde serán agregados cada unos de 
+         *            los elementos. 
+         * @return Lista con los elementos del Trie
+         */
+        public void list(final List<T> l){
+            // Primero se debe verificar si el nodo actual tiene algún elemento, 
+            // de ser así, entonces se debe agregar el elementos a la lista
+            if(this.element != null){
+                l.add(this.element);
+            } // IF ENDS 
+            // Ahora se deben agregar todos los elementos en los sub-árboles, sin
+            // embargo, para optimizar el tiempo de ejecución del Trie, utilizamos
+            // una expresión Lamda para filtrar lo elementos del vector de "hijos"
+            // para obtener un nuevo vector con únicamente los elementos que son
+            // diferentes de nulo. Si el vector de hijos no contiene instancias
+            // siguientes, entonces se habrá llegado al final del sub-árbol
+            Object[] childs = Arrays.stream(this.next).filter(x -> x != null).toArray();
+            // Ahora agregamos los elementos de cada sub-nodo
+            for(Object o:childs ){
+                // Visitamos los nodos hijos
+                ((Node<T>)o).list(l);
+            } // FOR ENDS
+        } // METHOD LIST ENDS -------------------------------------------------- //
 
         // --------------------------------------------------------------------- //
         // METHOD GET ELEMENT                                                    //
@@ -400,12 +434,33 @@ public class ExtendedASCIIConcurrentTrie<T> implements Trie<T> {
      */
     @Override
     public Trie<T> delete(String key) {
+        this.put(key, null);
         return this;
     } // METHOD DELETE ENDS ---------------------------------------------------- //
     
-    
+    // ------------------------------------------------------------------------- //
+    // METHOD LIST                                                               //
+    // ------------------------------------------------------------------------- //
     /**
-     * 
+     * Permite obtener una lista con todos los elementos del Trie
+     * @param c instancia de comparaddor de elementos
+     * @return 
+     */
+    @Override
+    public synchronized List<T> list(Comparator<T> c){
+        List<T> elements = new ConcurrentLinkedList<T>(c);
+        if(this.root != null){
+            this.root.list(elements);
+        } // IF ENDS
+        return elements;
+    } // METHOD LIST ENDS ------------------------------------------------------ //
+    
+    // ------------------------------------------------------------------------- //
+    // METHOD TO STRING                                                          //
+    // ------------------------------------------------------------------------- //
+    /**
+     * Genera una representación de estado actual del Trie utilizando cadenas de
+     * caracteres
      * @return 
      */
     @Override
@@ -415,6 +470,6 @@ public class ExtendedASCIIConcurrentTrie<T> implements Trie<T> {
             sb.append(this.root);
         } // IF ENDS
         return sb.toString();
-    } // 
+    } // METHOD TO STRING ENDS ------------------------------------------------- //
 
 } // CLASS EXTENDED ASCII TRIE ENDS -------------------------------------------- //

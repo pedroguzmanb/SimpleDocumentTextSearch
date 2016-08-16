@@ -34,24 +34,50 @@ public class LinkedQueue<E> implements Queue<E>{
      * @param <E> 
      */
     private class Node<E>{
+        
+        // ===================================================================== //
+        // ATRIBUTOS DE LA CLASE                                                 //
+        // ===================================================================== //
+        
         private E element;
+        
         private Node<E> next;
 
+        /**
+         * 
+         * @param element 
+         */
         public Node(E element) {
             this.element = element;
         }
+        /**
+         * 
+         * @return 
+         */
         public E getElement() {
             return element;
         }
 
+        /**
+         * 
+         * @param element 
+         */
         public void setElement(E element) {
             this.element = element;
         }
 
+        /**
+         * 
+         * @return 
+         */
         public Node<E> getNext() {
             return next;
         }
 
+        /**
+         * 
+         * @param next 
+         */
         public void setNext(Node<E> next) {
             this.next = next;
         }
