@@ -83,7 +83,7 @@ public class LinkedQueue<E> implements Queue<E>{
         }
         
     } // CLASS NODE ENDS ------------------------------------------------------- //
-
+   private Node<E> first;
     
     /**
      * Esto debe colocar un elemento al final de la cola
@@ -92,6 +92,25 @@ public class LinkedQueue<E> implements Queue<E>{
     @Override
     public void queue(E element) {
         // TODO SALGUA
+                Node<E> newElement = new Node<E>(element);
+        newElement.setNext(null);
+
+        if (this.first == null) {
+            this.first = newElement;
+            newElement.setNext(null);
+        } else {
+
+            Node<E> aux = this.first;
+
+            while (aux != null) {
+                if (aux.getNext() == null) {
+
+                    aux.setNext(newElement);
+
+                }
+                aux = aux.getNext();
+            }
+        }
     }
 
     /**
@@ -101,10 +120,23 @@ public class LinkedQueue<E> implements Queue<E>{
     @Override
     public E dequeue() {
         // TODO SALGUA
-        return null;
+        E element = null;
+        if (this.first != null) {
+           
+            element = this.first.getElement();
+         
+            if (this.first.getNext() != null) {
+           
+                this.first = this.first.getNext();
+            } 
+            else {
+                this.first = null;
+            } 
+        } 
+        return element;
+    }
     }
 
 
     
     
-}
