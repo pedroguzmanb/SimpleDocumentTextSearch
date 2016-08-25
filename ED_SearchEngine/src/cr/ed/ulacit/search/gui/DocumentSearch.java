@@ -5,6 +5,7 @@
  */
 package cr.ed.ulacit.search.gui;
 
+import com.ulacit.ocheckers.connect.HttpSimpleRestClient;
 import cr.ed.ulacit.dstructures.Iterator;
 import cr.ed.ulacit.dstructures.List;
 import cr.ed.ulacit.dstructures.Queue;
@@ -16,6 +17,7 @@ import cr.ed.ulacit.model.IndexingBot;
 import cr.ed.ulacit.model.Query;
 import cr.ed.ulacit.model.ScoreResult;
 import cr.ed.ulacit.model.StatusFlyweight;
+import cr.ed.ulacit.search.gui.external.Dictionary;
 import cr.ed.ulacit.texttools.TextPurifier;
 import cr.ed.ulacit.texttools.util.DirectorySweeper;
 import cr.ed.ulacit.texttools.util.TextFileReader;
@@ -31,7 +33,7 @@ import javax.swing.DefaultListModel;
  */
 public class DocumentSearch extends javax.swing.JFrame {
 
-    private static final String STOP_WORDS = ".\\resources\\StopWords.txt";
+    
     private ExecutorService threadPool;
     private final Queue<DocumentContentLocation> workerQueue;
     private final Index index;
@@ -54,8 +56,9 @@ public class DocumentSearch extends javax.swing.JFrame {
         this.workerQueue = new ConcurrentLinkedQueue<DocumentContentLocation>();
         this.index = Index.getInstance();
         this.status = StatusFlyweight.getInstance();
-        String stopwords = TextFileReader.readFile(STOP_WORDS);
-        this.purifier = new TextPurifier(stopwords);
+        HttpSimpleRestClient client = new HttpSimpleRestClient();
+        Dictionary d = client.get();
+        this.purifier = new TextPurifier(d.export());
     } // METHOD DOCUMENT SEARCH ENDS ------------------------------------------- //
 
     /**
@@ -101,7 +104,7 @@ public class DocumentSearch extends javax.swing.JFrame {
         jScrollPane1.setViewportView(results);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Autores: [Salgua Salha] [Pedro Guzmán] - Estructuras de Datos ULACIT");
+        jLabel2.setText("Programación Concurrente Cliente Servidor");
         jLabel2.setToolTipText("");
 
         btnScan.setText("Scan");
@@ -129,7 +132,7 @@ public class DocumentSearch extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(progressIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)

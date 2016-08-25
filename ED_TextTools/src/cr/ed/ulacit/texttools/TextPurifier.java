@@ -42,8 +42,8 @@ public class TextPurifier {
      *
      * @param stopWords
      */
-    public TextPurifier(final String stopWords) {
-        this.stopWords = this.stopWords(stopWords);
+    public TextPurifier(final List<String> stopWords) {
+        this.stopWords = stopWords;
     } // CONSTRUCTOR METHOD ENDS ----------------------------------------------- //
 
     // ------------------------------------------------------------------------- //

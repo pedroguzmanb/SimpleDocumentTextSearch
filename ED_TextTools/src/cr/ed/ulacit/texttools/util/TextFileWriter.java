@@ -9,7 +9,7 @@ package cr.ed.ulacit.texttools.util;
 // CLASS IMPORTS                                                                 //
 // ============================================================================= //
 
-import cr.ed.ulacit.texttools.Proyecto;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -35,7 +35,6 @@ public class TextFileWriter {
             persisted = true;
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
-            Logger.getLogger(Proyecto.class.getName()).log(Level.SEVERE, null, ex);
             persisted = false;
         } // CATCH ENDS
         return persisted;

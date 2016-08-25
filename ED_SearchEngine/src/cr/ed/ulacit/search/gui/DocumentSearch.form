@@ -44,7 +44,7 @@
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="progressIndex" min="-2" pref="227" max="-2" attributes="0"/>
-                      <EmptySpace pref="46" max="32767" attributes="0"/>
+                      <EmptySpace pref="191" max="32767" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="progress" min="-2" pref="227" max="-2" attributes="0"/>
@@ -171,7 +171,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Autores: [Salgua Salha] [Pedro Guzm&#xe1;n] - Estructuras de Datos ULACIT"/>
+        <Property name="text" type="java.lang.String" value="Programaci&#xf3;n Concurrente Cliente Servidor"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
