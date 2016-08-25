@@ -435,6 +435,7 @@ public class ExtendedASCIIConcurrentTrie<T> implements Trie<T> {
     @Override
     public Trie<T> delete(String key) {
         this.put(key, null);
+        this.size = (this.size -1);
         return this;
     } // METHOD DELETE ENDS ---------------------------------------------------- //
     

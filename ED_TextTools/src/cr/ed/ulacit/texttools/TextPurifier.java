@@ -110,7 +110,7 @@ public class TextPurifier {
      * @param text
      * @return
      */
-    public List<WordFrequency> extractSemanticVocabulary(List<String> text) {
+    public Trie<WordFrequency> extractSemanticVocabulary(List<String> text) {
         Comparator<WordFrequency> c = new WordFrequencyComparator();
         Trie<WordFrequency> document = new ExtendedASCIIConcurrentTrie<WordFrequency>();
         
@@ -130,7 +130,7 @@ public class TextPurifier {
         for (int i = 0; i < this.stopWords.size(); ++i) {
             document.delete(this.stopWords.get(i));
         } // FOR ENDS
-        return document.list(c);
+        return document;
     } // METHOD EXTRACT SEMANTIC VOCABULARY ------------------------------------ //
 
 } // CLASS TEXT PURIFIER ------------------------------------------------------- //

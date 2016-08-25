@@ -6,6 +6,11 @@
 package cr.ed.ulacit.model;
 
 // ----------------------------------------------------------------------------- //
+
+import cr.ed.ulacit.dstructures.List;
+import cr.ed.ulacit.dstructures.impl.ConcurrentLinkedList;
+import cr.ed.ulacit.texttools.util.DocumentComparator;
+
 // CLASS INDEX                                                                   //
 // ----------------------------------------------------------------------------- //
 /**
@@ -28,6 +33,9 @@ public class Index {
     // Instancia global del índice
     private static Index globalIndex;
     
+    // Lista de documentos
+    private static List<Document> docs;
+    
     // ========================================================================= //
     // CLASS CONSTRUCTORS                                                        //
     // ========================================================================= //
@@ -39,6 +47,7 @@ public class Index {
     private Index(){
         // Existe con el único propósito de evitar que la clase pueda ser 
         // instanciada desde afuera.
+        this.docs = new ConcurrentLinkedList<Document>(new DocumentComparator());
     } // CONSTRUCTOR METHOD ENDS ----------------------------------------------- //
     
     // ------------------------------------------------------------------------- //
@@ -55,6 +64,23 @@ public class Index {
         return globalIndex;
     } // METHOD GET INSTANCE ENDS ---------------------------------------------- //
     
+    // ------------------------------------------------------------------------- //
+    // METHOD ADD                                                                //
+    // ------------------------------------------------------------------------- //
+    /**
+     * 
+     * @param d 
+     */
+    public synchronized void add(Document d){
+        this.docs.add(d);
+    } // METHOD ADD ENDS
+    
+    
+    
     // TODO RESTO DEL ÍNDICE
+
+    public List<Document> getDocs() {
+        return docs;
+    }
     
 } // CLASS INDEX ENDS ---------------------------------------------------------- //

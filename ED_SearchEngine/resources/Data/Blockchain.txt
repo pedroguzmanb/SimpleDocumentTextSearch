@@ -1,0 +1,41 @@
+Blockchain 101 With Andreas Antonopoulos: How Bitcoin Makes Each Of Us As Powerful As A Bank
+Laura Shin,   CONTRIBUTOR
+I cover Bitcoin, blockchain, fintech, personal finance and career  
+
+Opinions expressed by Forbes Contributors are their own.
+In early 2012, Andreas Antonopoulos was a computer scientist and distributed systems specialist working in security when he first heard about Bitcoin. Although he dismissed it a few times, once he delved into it more deeply, “I immediately understood that this was a lot more than just a currency,” he says. He immediately stopped his other work and began working full-time in the space.
+
+The author of “Mastering Bitcoin,” a host of the Let’s Talk Bitcoin podcast and a frequent speaker on cryptocurrencies at technology conference, Antonopoulos explains what makes Bitcoin and the technology behind it so revolutionary in the latest episode of my podcast, Unchained, which explores blockchain and fintech (Google Play, iTunes, Stitcher, TuneIn Radio).
+
+“Bitcoin and the concept of the internet of money that it creates are this new model for a payment network that spans the globe, that has no borders, very much like the internet, that allows you to run financial applications that are controlled by software and, rather than political rules, are controlled by mathematical rules.” He says the fact that the network can process payments as small as hundredths of a penny or as large as billions of dollars will enable all kinds of applications that are impossible with the traditional financial system.
+
+Tune in to our fun and chock-filled conversation to hear why he says, “Bitcoin doesn’t care if you’re a person, a piece of software or an automatic dog-feeding bowl,” and for his far-out descriptions of how taxis and disaster relief could operate in the future.
+
+Andreas Antonopoulos
+Andreas Antonopoulos
+
+He also describes how technology will also give everyone, including the billions of unbanked and underbanked “the same capability a banker has today, not just access to a bank account, but access to the full power of a financial institution — the ability to trade and transact anywhere in the world in very, very short time — 24 hours a day, 365 days a year without limitations in any currency.”
+
+Recommended by Forbes
+Bitcoin's Shared Ledger Technology: Money's New Operating System
+How The Blockchain Alliance Helps Law Enforcement With Bitcoin Crime And Developments...
+SAPVoice: Innovation With Design Thinking Demands Critical Thinking
+
+Chain's Adam Ludwin On Who Is Best Poised To Benefit From Blockchain Techn...
+Want Higher Returns? Invest In Bitcoin, Say ARK's Chris Burniske And Coinbase's...
+MOST POPULAR Photos: The World's Highest-Paid Actresses 2016
+Oakland Raiders File Trademark Applications For Las Vegas Raiders
+MOST POPULAR Photos: The Most Expensive Home Listing in Every State 2016
+MOST POPULAR How To Write Better Emails
+
+If you’ve ever wondered exactly how the technology works, Antonopoulos gets into the breakthroughs that make the system so powerful. “[Bitcoin isn’t] a currency in the traditional sense … [it’s] really a very powerful decentralized system — a system for coordinating resources on a massive scale, and also a system for embedding trust into a network-centric system of coordination, solving the Byzantine fault tolerant problem,” he says. “This is really a computer science or distributed systems problem, which is the idea that, when you have systems coordinating over the internet or any network and you don’t know whether those systems are real or fake, whether you can trust them or not, whether your messages are being intercepted, and you’re trying to coordinate resources to execute some kind of action or agree on the state of a system, that’s a really difficult problem.”
+
+He explains how the technological breakthroughs behind that solution — Nakamoto consensus and the proof-of-work algorithm — work, what a blockchain really is, and heads off criticism that the Bitcoin network is a waste of energy.
+
+The week we recorded the episode saw the second-largest hacking of a Bitcoin exchange ever, with Hong Kong-based Bitfinex losing about 120,000 Bitcoins, about $78 million at the time. But Antonopoulos explained that this didn’t demonstrate that Bitcoin is less secure, but that points of centralization are. Since Bitcoin software can be downloaded onto one’s phone or computer and held there, if people didn’t keep their bitcoins with third parties, “If you wanted to hack a million people’s bitcoin accounts, you’d have to hack one million computers.”
+
+He notes that the space is where the internet was in 1990 or 1992 and says smart contracts, which took a reputation hit when an extremely popular smart contract called the DAO, which stands for decentralized autonomous organization, that raised more than $150 million in cryptocurrency ether suffered a theft of $50 million, “[have] the maturity of a one-year old baby because it is a one-year old baby. By comparison, Bitcoin is now a toddler. … While this technology is a toddler, it won’t take hundreds of years to grow up — it will take one decade, maybe two, and in one decade or maybe two, it will be able to deliver levels of maturity that are equivalent to all the institutions we see today at a fraction of the cost, at a multiple of the speed, and that is truly transformative.”
+
+Tune into the full episode (Google Play, iTunes, Stitcher, TuneIn Radio, web) to hear why he believes that, in 100 years, the expression “written in stone” will be “written in blockchain,” how much less time it takes to receive bitcoins than a wire transfer, and why he’s started charging a 20% premium for any speaker fees that are wired to his bank account rather than paid in bitcoin. 
+
+Laura Shin is the host of the Unchained podcast (iTunes, TuneIn) and author of The Millennial Game Plan and Money Hacks. Disclosure: I own a small number of Bitcoin.

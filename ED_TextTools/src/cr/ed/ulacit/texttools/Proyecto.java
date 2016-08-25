@@ -7,7 +7,10 @@ package cr.ed.ulacit.texttools;
 
 import cr.ed.ulacit.texttools.util.TextFileReader;
 import cr.ed.ulacit.dstructures.List;
+import cr.ed.ulacit.model.Document;
+import cr.ed.ulacit.model.Query;
 import cr.ed.ulacit.model.WordFrequency;
+import cr.ed.ulacit.model.WordFrequencyComparator;
 
 
 /**
@@ -24,56 +27,17 @@ public class Proyecto {
         String text = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\texto01.txt");
         String stopwords = TextFileReader.readFile("C:\\Users\\pedro\\Desktop\\StopWords.txt");
         TextPurifier purifier = new TextPurifier(stopwords);
+        
+        Query q = new Query("cloud computing", purifier);
+        Document d = new Document(text, purifier);
+        System.out.println("DOCUMENT SCORE: " + q.computeCosineDistance(d, 3));
 
         System.out.println("----------------------- TEXTO PURIFICADO ----------------------------");
         
-        List<WordFrequency> doc = purifier
+        /*List<WordFrequency> doc = purifier
                 .extractSemanticVocabulary(converter
                         .toList(text)
-                );
-        System.out.println(doc);
-        
-
-        /*List<String> purificadas = purifier.purify(miTexto.toList(text));
-        // Ahora las vamos a meter en el Trie.
-        Trie<WordFrequency> documento = new ExtendedASCIIConcurrentTrie<WordFrequency>();
-
-        Iterator<String> iter = purificadas.iterator();
-
-        while (iter.hasNext()) {
-            String tmp = iter.next();
-            
-            // Si la palabra ya existía en el Trie entonces solo aumentamos 
-            // la frecuencia
-            if(documento.contains(tmp)){
-                documento.get(tmp).inc();
-            } // IF ENDS
-            else{
-                documento.put(tmp, new WordFrequency(tmp));
-            } // ELSE ENDS
-        } // WHILE ENDS
-
-        
-        // Guardamos el archivo json resultante
-        // El archivo generado es un Json que se puede copiar y pegar en un parser
-        // como este: (http://json.parser.online.fr/) para poder ver el contenido
-        // de manera más fácil y poder ver como se forma el árbol de términos. 
-        try (PrintWriter out = new PrintWriter("C:\\Users\\pedro\\Desktop\\docIndex.json")) {
-            out.println(documento);
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-            Logger.getLogger(Proyecto.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Comparator<WordFrequency> c = new WordFrequencyComparator();
-        List<WordFrequency> vocabulario = documento.list(c);
-        
-        System.out.println(" --------------------------------------------------------------------");
-        System.out.println(" VOCABULARIO PURIFICADO ");
-        System.out.println(" --------------------------------------------------------------------");
-        System.out.println(vocabulario);
-        */
-
-
+                ).list(new WordFrequencyComparator());
+        System.out.println(doc);*/
     }
-
 }
